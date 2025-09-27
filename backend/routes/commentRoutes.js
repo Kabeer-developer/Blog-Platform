@@ -6,15 +6,15 @@ const {
 } = require("../controllers/commentController");
 const authMiddleware = require("../middleware/authMiddleware");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-// Add comment to a post
-router.post("/:postId", authMiddleware, addComment);
+// Add a comment to a post
+router.post("/:postId/comments", authMiddleware, addComment);
 
 // Get all comments for a post
-router.get("/:postId", getComments);
+router.get("/:postId/comments", getComments);
 
 // Delete a comment
-router.delete("/:id", authMiddleware, deleteComment);
+router.delete("/:postId/comments/:commentId", authMiddleware, deleteComment);
 
 module.exports = router;

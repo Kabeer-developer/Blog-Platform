@@ -6,7 +6,6 @@ exports.addComment = async (req, res) => {
   try {
     const { content } = req.body;
     const post = await Post.findById(req.params.postId);
-
     if (!post) return res.status(404).json({ message: "Post not found" });
 
     const comment = await Comment.create({
@@ -15,13 +14,13 @@ exports.addComment = async (req, res) => {
       post: post._id,
     });
 
-    res.json(comment);
+    res.status(201).json(comment);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// Get comments for a post
+// Get all comments for a post
 exports.getComments = async (req, res) => {
   try {
     const comments = await Comment.find({ post: req.params.postId })
@@ -35,7 +34,8 @@ exports.getComments = async (req, res) => {
 // Delete comment
 exports.deleteComment = async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.id);
+    const { commentId } = req.params;
+    const comment = await Comment.findById(commentId);
     if (!comment) return res.status(404).json({ message: "Comment not found" });
 
     if (comment.author.toString() !== req.user._id.toString()) {
