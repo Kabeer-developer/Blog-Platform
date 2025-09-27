@@ -22,6 +22,10 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 app.get("/", (req, res) => res.send("Blog backend is running"));
 
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/posts", require("./routes/postRoutes"));
+app.use("/api/comments", require("./routes/commentRoutes"));
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server listening on port ${PORT}`));
